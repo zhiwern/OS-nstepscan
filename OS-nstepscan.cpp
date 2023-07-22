@@ -17,32 +17,35 @@ void bubbleSort(int arr[], int size) {
     }
 }
 
+//scan up routine
 void nstepScanUp(int *nextArmLocation , int *travelDistant, int *currentArmLocation, int initialArmLocation, int *requestLocations, int arraySize) {
     int count = 0;
     int totalTravel = 0;
+    //sets the current arm pointer location
     currentArmLocation[0] = initialArmLocation;
     for (int i = 0; i < arraySize; i++) {
-        if (currentArmLocation[count] < requestLocations[i]) {
+        if (currentArmLocation[count] < requestLocations[i]) { 
+            //transverse to new location if its greater than the current location
             nextArmLocation[count] = requestLocations[i];
             currentArmLocation[count + 1] = nextArmLocation[count];
             travelDistant[count] = nextArmLocation[count] - currentArmLocation[count];
             count++;
         }
     }
+    //resets the current location to the max which is 199 and back to zero to restart the pointer
     if (currentArmLocation[count] != 199) {
         nextArmLocation[count] = 199;
         currentArmLocation[count + 1] = nextArmLocation[count];
         travelDistant[count] = nextArmLocation[count] - currentArmLocation[count];
         arraySize++;
         count++;
-
     }
     nextArmLocation[count] = 0;
     currentArmLocation[count + 1] = nextArmLocation[count];
     travelDistant[count] = currentArmLocation[count]-nextArmLocation[count];
     arraySize++;
     count++;
-
+    //transverse the remaining locations from the bottom.
     for (int i = 0; i < arraySize; i++) {
         if (initialArmLocation > requestLocations[i]) {
             nextArmLocation[count] = requestLocations[i];
@@ -61,14 +64,12 @@ void nstepScanUp(int *nextArmLocation , int *travelDistant, int *currentArmLocat
     //Total distant
     for (int i = 0; i < arraySize; i++)
     {
-       
             totalTravel = totalTravel + travelDistant[i];
-        
-
     }
     cout << "\n" << "Total travel:\t" << totalTravel << "\n";
 }
 
+//scan down routine
 void nstepScanDown(int* nextArmLocation, int* travelDistant, int* currentArmLocation, int initialArmLocation, int* requestLocations, int arraySize) {
     int count = 0;
     int totalTravel = 0;
@@ -129,7 +130,7 @@ int main()
     
     int arraySize = sizeof(requestLocations) / sizeof(requestLocations[0]);
     
-    cout << "Enter Ur Initial Arm position";
+    cout << "Enter arm initial position: ";
     cin >> initialArmLocation;
     cout << "\n";
     for (size_t i = 0; i < 9; i++)
@@ -138,6 +139,7 @@ int main()
         cin >> requestLocations[i];
     }
     
+    //To select the UP or DOWN mode
     cout << "\n1)Up or 2)Down\n";
     cin >> condition;
     bubbleSort(requestLocations, arraySize);
